@@ -4,6 +4,8 @@ import com.example.demomysqltest.model.User;
 import com.example.demomysqltest.repository.UserRepository;
 import com.example.demomysqltest.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -37,6 +39,24 @@ public class UserServiceImpl  implements UserService {
 
 
         return userRepository.findById(id);
+    }
+
+    @Override
+    public String deleteUserByID(int id) {
+
+        userRepository.deleteById(id);
+        return "Deleted Id : " +  id;
+    }
+
+    @Override
+    public ResponseEntity<User> updateUser(User user, int id) {
+
+        if(userRepository.findById(id)!=null){
+            user.setEmail(user.getEmail());
+            user.setName(user.getName());
+        }
+        userRepository.save(user);
+        return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
 }

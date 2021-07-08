@@ -3,6 +3,7 @@ package com.example.demomysqltest.controller;
 import com.example.demomysqltest.model.User;
 import com.example.demomysqltest.service.impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -36,5 +37,15 @@ public class UserController {
     @ResponseBody Optional<User> getUserByID(@PathVariable int Id){
 
        return userService.getUserByID(Id);
+    }
+
+    @DeleteMapping("/delete/{id}")
+    @ResponseBody String deleteUser(@PathVariable int id){
+        return userService.deleteUserByID(id);
+    }
+
+    @PutMapping("/updateUser/{id}")
+    ResponseEntity<User> updateUser(@RequestBody User user , @PathVariable int id){
+        return userService.updateUser(user, id);
     }
 }
